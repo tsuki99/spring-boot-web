@@ -4,7 +4,7 @@ import java.util.List;
 import lombok.RequiredArgsConstructor;
 import mate.academy.springbootweb.dto.BookDto;
 import mate.academy.springbootweb.dto.CreateBookRequestDto;
-import mate.academy.springbootweb.exceptions.EntityNotFoundException;
+import mate.academy.springbootweb.exception.EntityNotFoundException;
 import mate.academy.springbootweb.mapper.BookMapper;
 import mate.academy.springbootweb.model.Book;
 import mate.academy.springbootweb.repository.BookRepository;

@@ -2,6 +2,7 @@ package mate.academy.springbootweb.repository;
 
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
+import jakarta.persistence.EntityNotFoundException;
 import jakarta.persistence.EntityTransaction;
 import java.util.List;
 import java.util.Optional;
@@ -16,10 +17,12 @@ public class BookRepositoryImpl implements BookRepository {
 
     @Override
     public Book save(Book book) {
+        EntityManager entityManager = entityManagerFactory.createEntityManager();
         EntityTransaction transaction = null;
-        try (EntityManager entityManager = entityManagerFactory.createEntityManager()) {
+        try {
             transaction = entityManager.getTransaction();
             transaction.begin();
+
             entityManager.persist(book);
             transaction.commit();
             return book;
@@ -28,6 +31,8 @@ public class BookRepositoryImpl implements BookRepository {
                 transaction.rollback();
             }
             throw e;
+        } finally {
+            entityManager.close();
         }
     }
 
@@ -36,6 +41,8 @@ public class BookRepositoryImpl implements BookRepository {
         try (EntityManager entityManager = entityManagerFactory.createEntityManager()) {
             return entityManager.createQuery("SELECT b FROM Book b", Book.class)
                     .getResultList();
+        } catch (RuntimeException e) {
+            throw new EntityNotFoundException("Can't get all books from database", e);
         }
     }
 
@@ -44,6 +51,8 @@ public class BookRepositoryImpl implements BookRepository {
         try (EntityManager entityManager = entityManagerFactory.createEntityManager()) {
             Book book = entityManager.find(Book.class, id);
             return Optional.ofNullable(book);
+        } catch (RuntimeException e) {
+            throw new EntityNotFoundException("Can't get book by id " + id + " from database", e);
         }
     }
 }
