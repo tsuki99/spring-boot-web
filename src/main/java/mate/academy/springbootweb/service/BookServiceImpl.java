@@ -1,8 +1,6 @@
 package mate.academy.springbootweb.service;
 
 import java.util.List;
-import java.util.Optional;
-
 import lombok.RequiredArgsConstructor;
 import mate.academy.springbootweb.dto.BookDto;
 import mate.academy.springbootweb.dto.CreateBookRequestDto;
@@ -15,9 +13,9 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 @Service
 public class BookServiceImpl implements BookService {
+    private static final String NOT_FOUND_ENTITY_MESSAGE = "Can't find book by id: ";
     private final BookRepository bookRepository;
     private final BookMapper bookMapper;
-    private static final String NOT_FOUND_ENTITY_MESSAGE = "Can't find book by id: ";
 
     @Override
     public BookDto save(CreateBookRequestDto requestDto) {
