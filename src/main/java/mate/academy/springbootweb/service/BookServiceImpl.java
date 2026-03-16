@@ -1,6 +1,8 @@
 package mate.academy.springbootweb.service;
 
 import java.util.List;
+import java.util.Optional;
+
 import lombok.RequiredArgsConstructor;
 import mate.academy.springbootweb.dto.BookDto;
 import mate.academy.springbootweb.dto.CreateBookRequestDto;
@@ -15,6 +17,7 @@ import org.springframework.stereotype.Service;
 public class BookServiceImpl implements BookService {
     private final BookRepository bookRepository;
     private final BookMapper bookMapper;
+    private static final String NOT_FOUND_ENTITY_MESSAGE = "Can't find book by id: ";
 
     @Override
     public BookDto save(CreateBookRequestDto requestDto) {
@@ -31,7 +34,31 @@ public class BookServiceImpl implements BookService {
 
     @Override
     public BookDto findBookById(Long id) {
-        return bookMapper.toDto(bookRepository.findBookById(id).orElseThrow(() ->
-                new EntityNotFoundException("Can't find book by id: " + id)));
+        return bookMapper.toDto(bookRepository.findById(id).orElseThrow(() ->
+                new EntityNotFoundException(NOT_FOUND_ENTITY_MESSAGE + id)));
+    }
+
+    @Override
+    public void deleteById(Long id) {
+        bookRepository.deleteById(id);
+    }
+
+    @Override
+    public BookDto updateById(Long id, BookDto bookDto) {
+        Book existingBook = bookRepository.findById(id).orElseThrow(() ->
+                new EntityNotFoundException(NOT_FOUND_ENTITY_MESSAGE + id));
+
+        updateEntityFromDto(existingBook, bookDto);
+
+        return bookMapper.toDto(bookRepository.save(existingBook));
+    }
+
+    private void updateEntityFromDto(Book book, BookDto bookDto) {
+        book.setTitle(bookDto.getTitle());
+        book.setAuthor(bookDto.getAuthor());
+        book.setIsbn(bookDto.getIsbn());
+        book.setPrice(bookDto.getPrice());
+        book.setDescription(bookDto.getDescription());
+        book.setCoverImage(bookDto.getCoverImage());
     }
 }
