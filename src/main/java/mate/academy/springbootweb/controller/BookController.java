@@ -18,7 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/api/books")
+@RequestMapping("/books")
 public class BookController {
     private final BookService bookService;
 
@@ -28,24 +28,25 @@ public class BookController {
     }
 
     @GetMapping("/{id}")
-    public BookDto getBookById(@PathVariable Long id) {
+    public BookDto getById(@PathVariable Long id) {
         return bookService.findBookById(id);
     }
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public BookDto createBook(@RequestBody CreateBookRequestDto bookDto) {
+    public BookDto save(@RequestBody CreateBookRequestDto bookDto) {
         return bookService.save(bookDto);
     }
 
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void deleteBookById(@PathVariable Long id) {
+    public void deleteById(@PathVariable Long id) {
         bookService.deleteById(id);
     }
 
     @PutMapping("/{id}")
-    public BookDto updateBookById(@PathVariable Long id, @RequestBody BookDto bookDto) {
-        return bookService.updateById(id, bookDto);
+    public BookDto updateById(@PathVariable Long id,
+                              @RequestBody CreateBookRequestDto requestDto) {
+        return bookService.updateById(id, requestDto);
     }
 }
