@@ -2,9 +2,9 @@ package mate.academy.springbootweb.service;
 
 import java.util.List;
 import lombok.RequiredArgsConstructor;
-import mate.academy.springbootweb.dto.BookDto;
-import mate.academy.springbootweb.dto.BookSearchParameters;
-import mate.academy.springbootweb.dto.CreateBookRequestDto;
+import mate.academy.springbootweb.dto.book.BookDto;
+import mate.academy.springbootweb.dto.book.BookSearchParameters;
+import mate.academy.springbootweb.dto.book.CreateBookRequestDto;
 import mate.academy.springbootweb.exception.EntityNotFoundException;
 import mate.academy.springbootweb.mapper.BookMapper;
 import mate.academy.springbootweb.model.Book;

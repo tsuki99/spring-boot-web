@@ -1,10 +1,11 @@
 package mate.academy.springbootweb.controller;
 
+import jakarta.validation.Valid;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
-import mate.academy.springbootweb.dto.BookDto;
-import mate.academy.springbootweb.dto.BookSearchParameters;
-import mate.academy.springbootweb.dto.CreateBookRequestDto;
+import mate.academy.springbootweb.dto.book.BookDto;
+import mate.academy.springbootweb.dto.book.BookSearchParameters;
+import mate.academy.springbootweb.dto.book.CreateBookRequestDto;
 import mate.academy.springbootweb.service.BookService;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -35,7 +36,7 @@ public class BookController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public BookDto save(@RequestBody CreateBookRequestDto bookDto) {
+    public BookDto save(@RequestBody @Valid CreateBookRequestDto bookDto) {
         return bookService.save(bookDto);
     }
 
@@ -47,7 +48,7 @@ public class BookController {
 
     @PutMapping("/{id}")
     public BookDto updateById(@PathVariable Long id,
-                              @RequestBody CreateBookRequestDto requestDto) {
+                              @RequestBody @Valid CreateBookRequestDto requestDto) {
         return bookService.updateById(id, requestDto);
     }
 
