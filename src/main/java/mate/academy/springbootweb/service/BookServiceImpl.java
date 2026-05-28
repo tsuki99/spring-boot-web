@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 @Service
 public class BookServiceImpl implements BookService {
+    private static final String NOT_FOUND_ENTITY_MESSAGE = "Can't find book by id: ";
     private final BookRepository bookRepository;
     private final BookMapper bookMapper;
 
@@ -31,7 +32,22 @@ public class BookServiceImpl implements BookService {
 
     @Override
     public BookDto findBookById(Long id) {
-        return bookMapper.toDto(bookRepository.findBookById(id).orElseThrow(() ->
-                new EntityNotFoundException("Can't find book by id: " + id)));
+        return bookMapper.toDto(bookRepository.findById(id).orElseThrow(() ->
+                new EntityNotFoundException(NOT_FOUND_ENTITY_MESSAGE + id)));
+    }
+
+    @Override
+    public void deleteById(Long id) {
+        bookRepository.deleteById(id);
+    }
+
+    @Override
+    public BookDto updateById(Long id, CreateBookRequestDto requestDto) {
+        Book book = bookRepository.findById(id).orElseThrow(
+                () -> new EntityNotFoundException(NOT_FOUND_ENTITY_MESSAGE + id));
+
+        bookMapper.updateBookFromDto(requestDto, book);
+
+        return bookMapper.toDto(bookRepository.save(book));
     }
 }
