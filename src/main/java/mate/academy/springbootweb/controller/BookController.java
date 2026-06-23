@@ -73,13 +73,15 @@ public class BookController {
             description = "Update an existing book by its id")
     @PutMapping("/{id}")
     public BookDto updateById(@PathVariable Long id,
-                              @RequestBody @Valid CreateBookRequestDto requestDto) {
+                              @RequestBody @Valid CreateBookRequestDto requestDto
+    ) {
         return bookService.updateById(id, requestDto);
     }
 
     @Operation(
             summary = "Search books",
-            description = "Search books by parameters " + DEFAULT_SORT_DESCRIPTION)
+            description = "Search books by parameters " + DEFAULT_SORT_DESCRIPTION
+    )
     @GetMapping("/search")
     public PageDto<BookDto> search(BookSearchParameters bookSearchParameters,
                                    @PageableDefault(sort = FIELD_TITLE,
