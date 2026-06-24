@@ -30,6 +30,6 @@ public class CustomGlobalExceptionHandler {
 
     @ExceptionHandler(RegistrationException.class)
     public ResponseEntity<ErrorDto> handleRegistrationException(RegistrationException ex) {
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new ErrorDto(ex.getMessage()));
+        return ResponseEntity.status(HttpStatus.CONFLICT).body(new ErrorDto(ex.getMessage()));
     }
 }

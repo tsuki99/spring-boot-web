@@ -17,24 +17,26 @@ public class FieldMatchValidator implements ConstraintValidator<FieldMatch, Obje
     }
 
     @Override
-    public boolean isValid(Object object, ConstraintValidatorContext constraintValidatorContext) {
-        if (object == null) {
+    public boolean isValid(Object objectToValidate,
+                           ConstraintValidatorContext constraintValidatorContext) {
+
+        if (objectToValidate == null) {
             return true;
         }
 
         try {
-            Field f1 = object.getClass().getDeclaredField(first);
-            Field f2 = object.getClass().getDeclaredField(second);
+            Field firstField = objectToValidate.getClass().getDeclaredField(first);
+            Field secondField = objectToValidate.getClass().getDeclaredField(second);
 
-            f1.setAccessible(true);
-            f2.setAccessible(true);
+            firstField.setAccessible(true);
+            secondField.setAccessible(true);
 
-            Object v1 = f1.get(object);
-            Object v2 = f2.get(object);
+            Object firstValue = firstField.get(objectToValidate);
+            Object secondValue = secondField.get(objectToValidate);
 
-            boolean isObjectsEquals = Objects.equals(v1, v2);
+            boolean valuesEquals = Objects.equals(firstValue, secondValue);
 
-            if (!isObjectsEquals) {
+            if (!valuesEquals) {
                 constraintValidatorContext.disableDefaultConstraintViolation();
                 constraintValidatorContext.buildConstraintViolationWithTemplate(
                         constraintValidatorContext.getDefaultConstraintMessageTemplate()
@@ -43,7 +45,7 @@ public class FieldMatchValidator implements ConstraintValidator<FieldMatch, Obje
                         .addConstraintViolation();
             }
 
-            return isObjectsEquals;
+            return valuesEquals;
 
         } catch (Exception e) {
             return false;
