@@ -13,6 +13,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -37,6 +38,7 @@ public class BookController {
             summary = "Get all books",
             description = "Retrieve all books from db " + DEFAULT_SORT_DESCRIPTION
     )
+    @PreAuthorize("hasAuthority('USER')")
     @GetMapping
     public PageDto<BookDto> getAll(@PageableDefault(sort = FIELD_TITLE,
             direction = Sort.Direction.ASC) Pageable pageable) {
@@ -47,6 +49,7 @@ public class BookController {
             summary = "Get book by id",
             description = "Retrieve a book by its id"
     )
+    @PreAuthorize("hasAuthority('USER')")
     @GetMapping("/{id}")
     public BookDto getById(@PathVariable Long id) {
         return bookService.findBookById(id);
@@ -56,6 +59,7 @@ public class BookController {
             summary = "Save book",
             description = "Save a new book to the database"
     )
+    @PreAuthorize("hasAuthority('ADMIN')")
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public BookDto save(@RequestBody @Valid CreateBookRequestDto bookDto) {
@@ -66,6 +70,7 @@ public class BookController {
             summary = "Delete book",
             description = "Delete a book by its id"
     )
+    @PreAuthorize("hasAuthority('ADMIN')")
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void deleteById(@PathVariable Long id) {
@@ -76,6 +81,7 @@ public class BookController {
             summary = "Update book",
             description = "Update an existing book by its id"
     )
+    @PreAuthorize("hasAuthority('ADMIN')")
     @PutMapping("/{id}")
     public BookDto updateById(@PathVariable Long id,
                               @RequestBody @Valid CreateBookRequestDto requestDto
@@ -87,6 +93,7 @@ public class BookController {
             summary = "Search books",
             description = "Search books by parameters " + DEFAULT_SORT_DESCRIPTION
     )
+    @PreAuthorize("hasAuthority('USER')")
     @GetMapping("/search")
     public PageDto<BookDto> search(BookSearchParameters bookSearchParameters,
                                    @PageableDefault(sort = FIELD_TITLE,

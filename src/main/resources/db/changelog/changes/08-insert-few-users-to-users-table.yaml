@@ -1,0 +1,69 @@
+databaseChangeLog:
+  - changeSet:
+      id: insert-few-users-to-users-table
+      author: tsuki99
+      changes:
+        - insert:
+            tableName: users
+            columns:
+              - column:
+                  name: email
+                  value: adminIvan@i.ua
+
+              - column:
+                  name: password
+                  value: "$2a$10$.tVrNAKfW2ip2FgJwP65P.9wcZZXfwiZBwHiIHlDF4T4BsYiarKnK"
+
+              - column:
+                  name: first_name
+                  value: AbrakhamAdmin
+
+              - column:
+                  name: last_name
+                  value: WillAdmin
+
+        - insert:
+            tableName: users
+            columns:
+              - column:
+                  name: email
+                  value: userBob@i.ua
+
+              - column:
+                  name: password
+                  value: "$2a$10$G0SFvK8cKDeRpAUPknhWpessrWqy0sntkMUgBFWVbLApgR7hHCFo6"
+
+              - column:
+                  name: first_name
+                  value: BobUser
+
+              - column:
+                  name: last_name
+                  value: BobsonUser
+
+              - column:
+                  name: shipping_address
+                  value: 11, Mykhaila Drahomyrova Street
+
+        - insert:
+            tableName: users
+            columns:
+              - column:
+                  name: email
+                  value: alice@i.ua
+
+              - column:
+                  name: password
+                  value: "$2a$10$mNiLpXy4DD4/WLcUDv7.AuRe1xOyS9t5irTHSHHTJU2BXy47njcCG"
+
+              - column:
+                  name: first_name
+                  value: AliceUser
+
+              - column:
+                  name: last_name
+                  value: AlisonUser
+
+              - column:
+                  name: shipping_address
+                  value: 21, Bolonska Street
