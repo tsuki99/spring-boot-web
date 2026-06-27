@@ -7,5 +7,5 @@ import org.mapstruct.NullValueCheckStrategy;
         nullValueCheckStrategy = NullValueCheckStrategy.ALWAYS,
         implementationPackage = "<PACKAGE_NAME>.impl"
 )
-public class MapperConfig {
+public interface MapperConfig {
 }

@@ -5,3 +5,15 @@ databaseChangeLog:
       file: db/changelog/changes/02-add-is-deleted-column-to-books-table.yaml
   - include:
       file: db/changelog/changes/03-create-users-table.yaml
+  - include:
+      file: db/changelog/changes/04-add-is-deleted-column-to-users-table.yaml
+  - include:
+      file: db/changelog/changes/05-create-roles-table.yaml
+  - include:
+      file: db/changelog/changes/06-create-users-roles-table.yaml
+  - include:
+      file: db/changelog/changes/07-insert-roles.yaml
+  - include:
+      file: db/changelog/changes/08-insert-few-users-to-users-table.yaml
+  - include:
+      file: db/changelog/changes/09-assign-users-roles.yaml
