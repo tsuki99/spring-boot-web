@@ -4,9 +4,12 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import mate.academy.springbootweb.dto.user.UserLoginRequestDto;
+import mate.academy.springbootweb.dto.user.UserLoginResponseDto;
 import mate.academy.springbootweb.dto.user.UserRegistrationRequestDto;
 import mate.academy.springbootweb.dto.user.UserResponseDto;
 import mate.academy.springbootweb.exception.RegistrationException;
+import mate.academy.springbootweb.security.AuthenticationService;
 import mate.academy.springbootweb.service.user.UserService;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -19,6 +22,7 @@ import org.springframework.web.bind.annotation.RestController;
 @Tag(name = "Authentication", description = "Endpoints for user authentication and registration")
 public class AuthenticationController {
     private final UserService userService;
+    private final AuthenticationService authenticationService;
 
     @Operation(
             summary = "Register a new user",
@@ -29,5 +33,15 @@ public class AuthenticationController {
             throws RegistrationException {
 
         return userService.register(requestDto);
+    }
+
+    @Operation(
+            summary = "Log in",
+            description = "Authenticates the user with the provided credentials "
+                    + "and returns an access token."
+    )
+    @PostMapping("/login")
+    public UserLoginResponseDto login(@RequestBody @Valid UserLoginRequestDto requestDto) {
+        return authenticationService.authenticate(requestDto);
     }
 }
